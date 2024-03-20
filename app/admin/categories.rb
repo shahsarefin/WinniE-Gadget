@@ -1,3 +1,4 @@
+# Active Admin Categories Page
 ActiveAdmin.register Category do
     permit_params :name
   
@@ -19,7 +20,7 @@ ActiveAdmin.register Category do
       attributes_table do
         row :id
         row :name
-        # Add other fields as needed
+        
       end
       active_admin_comments
     end
