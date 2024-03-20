@@ -1,13 +1,5 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-# Ensuring an AdminUser is created for development environment
+require 'faker'
+
 if Rails.env.development?
     admin_email = 'admin@example.com'
     unless AdminUser.exists?(email: admin_email)
@@ -18,12 +10,58 @@ if Rails.env.development?
     end
   end
   
-  # Adding real category names
-  categories = ["Laptops", "Smartphones", "Smartwatches", "Headphones", "Monitors"]
+  categories = Category.all
+
   
-  categories.each do |category_name|
-    Category.find_or_create_by!(name: category_name)
+  Product.destroy_all
+  
+ 
+  monitors = ["LG Ultrawide Monitor", "Dell 27-inch 4K Monitor", "Asus ROG Swift Gaming Monitor", "Samsung Curved Monitor"]
+  laptops = ["Apple MacBook Pro", "Lenovo ThinkPad X1 Carbon", "Dell XPS 13", "HP Spectre x360"]
+  smartphones = ["iPhone 13 Pro", "Samsung Galaxy S21 Ultra", "Google Pixel 6 Pro", "OnePlus 9 Pro"]
+  smartwatches = ["Apple Watch Series 7", "Samsung Galaxy Watch 4", "Fitbit Versa 3", "Garmin Fenix 6"]
+  tablets = ["iPad Pro", "Samsung Galaxy Tab S7+", "Microsoft Surface Pro 8", "Lenovo Tab P11"]
+  
+  
+  # Create specific products for each category
+  categories.each do |category|
+    products = case category.name
+               when "Monitors"
+                 monitors
+               when "Laptops"
+                 laptops
+               when "Smartphones"
+                 smartphones
+               when "Smartwatches"
+                 smartwatches
+               when "Tablets"
+                 tablets
+               else
+                 []
+               end
+  
+    # Create specific products for the category
+    products.each do |product_name|
+      Product.create!(
+        name: product_name,
+        description: Faker::Lorem.paragraph(sentence_count: 4),
+        price: Faker::Commerce.price(range: 50..1000.0, as_string: true),
+        category: category,
+        stock_quantity: Faker::Number.between(from: 0, to: 100)
+      )
+    end
+  
+    # Generate additional random products
+    (150 - products.length).times do
+      Product.create!(
+        name: Faker::Device.model_name,
+        description: Faker::Lorem.paragraph(sentence_count: 4),
+        price: Faker::Commerce.price(range: 50..1000.0, as_string: true),
+        category: category,
+        stock_quantity: Faker::Number.between(from: 0, to: 100)
+      )
+    end
   end
   
-  puts "Categories created successfully!"
+  puts "Gadget products created successfully!"
   

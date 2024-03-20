@@ -6,6 +6,7 @@ gem 'devise'
 gem 'activeadmin'
 gem 'sassc', '~> 2.0'
 gem 'image_processing'
+gem 'faker'
 
 
 
