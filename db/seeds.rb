@@ -7,4 +7,23 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# Ensuring an AdminUser is created for development environment
+if Rails.env.development?
+    admin_email = 'admin@example.com'
+    unless AdminUser.exists?(email: admin_email)
+      AdminUser.create!(email: admin_email, password: 'password', password_confirmation: 'password')
+      puts 'AdminUser has been created'
+    else
+      puts 'AdminUser already exists'
+    end
+  end
+  
+  # Adding real category names
+  categories = ["Laptops", "Smartphones", "Smartwatches", "Headphones", "Monitors"]
+  
+  categories.each do |category_name|
+    Category.find_or_create_by!(name: category_name)
+  end
+  
+  puts "Categories created successfully!"
+  
