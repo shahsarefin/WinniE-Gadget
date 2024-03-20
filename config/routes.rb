@@ -10,4 +10,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get '/about', to: 'static#show', page_name: 'about'
+  get '/contact', to: 'static#show', page_name: 'contact'
+
 end

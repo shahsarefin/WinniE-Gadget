@@ -5,6 +5,8 @@ ruby "3.3.0"
 gem 'devise'
 gem 'activeadmin'
 gem 'sassc', '~> 2.0'
+gem 'image_processing'
+
 
 
 
