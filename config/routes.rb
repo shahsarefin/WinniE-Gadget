@@ -7,9 +7,7 @@ Rails.application.routes.draw do
   get '/about', to: 'static#show', page_name: 'about'
   get '/contact', to: 'static#show', page_name: 'contact'
 
-  get '/products', to: 'products#index', as: 'products'
-  get '/products/:id', to: 'products#show', as: 'product'
-
   root 'home#index'
-
+  get 'products', to: 'products#index'
+  get 'categories', to: 'categories#index'
 end
