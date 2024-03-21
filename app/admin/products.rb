@@ -1,6 +1,7 @@
 ActiveAdmin.register Product do
-  permit_params :name, :description, :price, :stock_quantity, :category_id, :image
   
+  permit_params :name, :description, :price, :stock_quantity, :category_id, images:
+
   index do
     selectable_column
     id_column
@@ -8,29 +9,11 @@ ActiveAdmin.register Product do
     column :price
     column :stock_quantity
     column :category
-    column 'Image' do |product|
-      if product.image.attached?
-        image_tag product.image.variant(resize_to_limit: [100, 100])
-      end
-    end
     actions
   end
 
-  show do
-    attributes_table do
-      row :name
-      row :description
-      row :price
-      row :stock_quantity
-      row :category
-      row :image do |product|
-        if product.image.attached?
-          image_tag product.image
-        end
-      end
-    end
-    active_admin_comments
-  end
+  filter :name
+  filter :category
 
   form do |f|
     f.inputs 'Product Details' do
@@ -39,20 +22,30 @@ ActiveAdmin.register Product do
       f.input :price
       f.input :stock_quantity
       f.input :category, as: :select, collection: Category.all
-      f.input :image, as: :file, hint: f.object.image.attached? ? image_tag(f.object.image.variant(resize_to_limit: [200, 200])) : ''
+      
+      f.input :images, as: :file, input_html: { multiple: true }
     end
     f.actions
   end
 
-  filter :name
-  filter :price
-  filter :stock_quantity
-  filter :category, as: :select
-
-  # Permit parameters for Active Storage
-  controller do
-    def permitted_params
-      params.permit!
+  show do |product|
+    attributes_table do
+      row :name
+      row :description
+      row :price
+      row :stock_quantity
+      row :category
+      
+      row :images do
+        ul do
+          product.images.each do |img|
+            li do
+              image_tag(img.variant(resize_to_limit: [100, 100]))
+            end
+          end
+        end
+      end
     end
+    active_admin_comments
   end
 end

@@ -1,67 +1,58 @@
 require 'faker'
 
-if Rails.env.development?
-    admin_email = 'admin@example.com'
-    unless AdminUser.exists?(email: admin_email)
-      AdminUser.create!(email: admin_email, password: 'password', password_confirmation: 'password')
-      puts 'AdminUser has been created'
-    else
-      puts 'AdminUser already exists'
-    end
-  end
-  
-  categories = Category.all
 
+category_names = ["Monitors", "Laptops", "Smartphones", "Smartwatches", "Tablets"]
+categories = category_names.map do |name|
+  Category.find_or_create_by!(name: name)
+end
+
+
+
+# Clear out existing products
+Product.destroy_all
+
+# Assuming categories already exist based on your instructions
+categories = Category.all.index_by(&:name)
+
+# Define new products based on your specifications
+new_products = [
+  # Monitors
+  { name: "LG Ultrawide Monitor", category: "Monitors" },
+  { name: "Samsung Curved Monitor", category: "Monitors" },
+  { name: "Lenovo Gaming Monitor", category: "Monitors" },
+  { name: "LG 4K UHD Monitor", category: "Monitors" },
   
-  Product.destroy_all
+  # Laptops
+  { name: "MacBook Pro", category: "Laptops" },
+  { name: "MacBook Air", category: "Laptops" },
+  { name: "Dell XPS", category: "Laptops" },
+  { name: "Asus ZenBook", category: "Laptops" },
   
- 
-  monitors = ["LG Ultrawide Monitor", "Dell 27-inch 4K Monitor", "Asus ROG Swift Gaming Monitor", "Samsung Curved Monitor"]
-  laptops = ["Apple MacBook Pro", "Lenovo ThinkPad X1 Carbon", "Dell XPS 13", "HP Spectre x360"]
-  smartphones = ["iPhone 13 Pro", "Samsung Galaxy S21 Ultra", "Google Pixel 6 Pro", "OnePlus 9 Pro"]
-  smartwatches = ["Apple Watch Series 7", "Samsung Galaxy Watch 4", "Fitbit Versa 3", "Garmin Fenix 6"]
-  tablets = ["iPad Pro", "Samsung Galaxy Tab S7+", "Microsoft Surface Pro 8", "Lenovo Tab P11"]
+  # Smartphones
+  { name: "iPhone 13 Pro", category: "Smartphones" },
+  { name: "Samsung Galaxy S21", category: "Smartphones" },
+  { name: "Google Pixel 6", category: "Smartphones" },
+  { name: "OnePlus 9", category: "Smartphones" },
   
+  # Smartwatches
+  { name: "Samsung Galaxy Watch", category: "Smartwatches" },
+  { name: "Apple Watch Series 7", category: "Smartwatches" },
   
-  # Create specific products for each category
-  categories.each do |category|
-    products = case category.name
-               when "Monitors"
-                 monitors
-               when "Laptops"
-                 laptops
-               when "Smartphones"
-                 smartphones
-               when "Smartwatches"
-                 smartwatches
-               when "Tablets"
-                 tablets
-               else
-                 []
-               end
-  
-    # Create specific products for the category
-    products.each do |product_name|
-      Product.create!(
-        name: product_name,
-        description: Faker::Lorem.paragraph(sentence_count: 4),
-        price: Faker::Commerce.price(range: 50..1000.0, as_string: true),
-        category: category,
-        stock_quantity: Faker::Number.between(from: 0, to: 100)
-      )
-    end
-  
-    # Generate additional random products
-    (150 - products.length).times do
-      Product.create!(
-        name: Faker::Device.model_name,
-        description: Faker::Lorem.paragraph(sentence_count: 4),
-        price: Faker::Commerce.price(range: 50..1000.0, as_string: true),
-        category: category,
-        stock_quantity: Faker::Number.between(from: 0, to: 100)
-      )
-    end
-  end
-  
-  puts "Gadget products created successfully!"
-  
+  # Tablets
+  { name: "Samsung Galaxy Tab S7", category: "Tablets" },
+  { name: "iPad Pro", category: "Tablets" },
+]
+
+# Create new products
+new_products.each do |product_info|
+  Product.create!(
+    name: product_info[:name],
+    description: "Description for #{product_info[:name]}, a high-quality product.",
+    price: rand(300..1000), 
+    stock_quantity: rand(10..100), 
+    category: categories[product_info[:category]]
+  )
+end
+
+puts "Products have been successfully added."
+
