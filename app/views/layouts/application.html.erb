@@ -5,12 +5,17 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'custom', media: 'all', 'data-turbolinks-track': 'reload' %>
+
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">WinniEGadget</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -19,15 +24,20 @@
           <li class="nav-item">
             <%= link_to 'Products', products_path, class: 'nav-link' %>
           </li>
-          <li class="nav-item">
-            <%= link_to 'Categories', categories_path, class: 'nav-link' %>
+          <!-- Insert the categories dropdown form here -->
+          <li class="nav-item dropdown">
+            <%= form_with(url: categories_path, method: :get, local: true, class: "d-flex") do |form| %>
+              <%= form.collection_select :id, Category.all, :id, :name, 
+                  {prompt: 'Search By Category'}, 
+                  {class: 'custom-select', onchange: 'this.form.submit();'} %>
+            <% end %>
           </li>
           <li class="nav-item">
-          <%= link_to "About", about_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Contact", contact_path, class: "nav-link" %>
-        </li>
+            <%= link_to "About", about_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Contact", contact_path, class: "nav-link" %>
+          </li>
         </ul>
       </div>
     </div>

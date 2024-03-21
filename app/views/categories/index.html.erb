@@ -1,0 +1,5 @@
+<!-- app/views/categories/index.html.erb -->
+<%= form_with(url: categories_path, method: :get, local: true) do |form| %>
+  <%= form.collection_select :id, Category.all, :id, :name, prompt: 'Select Category' %>
+  <%= form.submit 'Go to Category' %>
+<% end %>

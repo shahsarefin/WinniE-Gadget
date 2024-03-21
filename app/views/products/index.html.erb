@@ -1,7 +1,31 @@
-<% @products.each do |product| %>
-    <div>
-      <%= link_to product.name, product_path(product) %>
-      <p><%= product.description %></p>
+<%= form_with(url: products_path, method: :get, local: true, class: "form-inline my-2 my-lg-0") do |form| %>
+  <%= form.collection_select :category_id, Category.all, :id, :name, include_blank: 'All Categories', class: 'custom-select mr-sm-2' %>
+  <%= form.text_field :keyword, placeholder: 'Enter keyword', class: 'form-control mr-sm-2' %>
+  <%= form.submit 'Search', class: 'btn btn-outline-success my-2 my-sm-0' %>
+<% end %>
+
+<h1 class="my-4 text-center">Browse All Products</h1>
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+      <div class="card h-100">
+        <%= link_to product_path(product) do %>
+          <%= image_tag(product.images.first, class: "card-img-top") if product.images.attached? %>
+        <% end %>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title"><%= product.name %></h5>
+          <!-- Display star ratings here -->
+          <div class="mt-auto">
+            <p class="card-text">
+              
+              <span class="text-danger">$<%= number_to_currency(product.price) %></span>
+            </p>
+            <%= link_to 'Add to Cart', carts_path(product_id: product), method: :post, class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
     </div>
   <% end %>
-  
+</div>
+
+<%= paginate @products %>

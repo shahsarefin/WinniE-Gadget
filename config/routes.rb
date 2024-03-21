@@ -9,5 +9,10 @@ Rails.application.routes.draw do
 
   root 'home#index'
   get 'products', to: 'products#index'
-  get 'categories', to: 'categories#index'
-end
+  resources :products, only: [:show]
+  
+resources :categories, only: [:index, :show]
+
+resources :carts, only: [:index, :create, :update, :destroy]
+
+end 

@@ -1,21 +1,3 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
-// app/assets/stylesheets/application.scss
-@import "bootstrap";
-
 /* Assuming you have a 'stylesheets/custom.css' for your custom styles */
 /* Set the background color for the whole page or a specific container */
 .body-background {
@@ -50,7 +32,8 @@ h6 {
 
 /* Style for product images */
 .card-img-top {
-  height: 200px; /* Fixed height, or use 'object-fit' to control the image scaling */
+  height: 300px; /* Fixed height, or use 'object-fit' to control the image scaling */
+  width: 250px;
   object-fit: cover;
 }
 
@@ -109,6 +92,3 @@ h6 {
   color: #7f8c8d; /* Grey for the original price */
   text-decoration: line-through;
 }
-
-/* Any additional custom styles */
-/* ... */

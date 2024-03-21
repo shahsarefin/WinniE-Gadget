@@ -1,0 +1,18 @@
+<div class="col-md-6">
+  <!-- Product image -->
+  <% if @product.images.attached? %>
+    <%= image_tag url_for(@product.images.first), class: "img-fluid", alt: "Product Image" %>
+  <% else %>
+    <!-- Display a placeholder image or text -->
+    <%= image_tag "placeholder.png", class: "img-fluid", alt: "Placeholder Image" %>
+  <% end %>
+</div>
+<div class="col-md-6">
+
+      <!-- Product details -->
+      <h1><%= @product.name %></h1>
+      <p>Description: <%= @product.description %></p>
+      <p>Price: $<%= @product.price %></p>
+    </div>
+  </div>
+</div>

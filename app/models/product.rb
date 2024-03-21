@@ -3,12 +3,16 @@ class Product < ApplicationRecord
   belongs_to :category
   validates :name, :description, :price, :stock_quantity, presence: true
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[id name description price stock_quantity category_id created_at updated_at]
-  end
+  scope :search_by_keyword, -> (keyword) {
+    where("name LIKE :keyword OR description LIKE :keyword", keyword: "%#{keyword}%")
+  }
+end
 
-  
-  def self.ransackable_associations(auth_object = nil)
-    %w[category]
-  end
+
+def Product.ransackable_attributes(auth_object = nil)
+  %w[id name description price stock_quantity category_id created_at updated_at]
+end
+
+def Product.ransackable_associations(auth_object = nil)
+  %w[category]
 end

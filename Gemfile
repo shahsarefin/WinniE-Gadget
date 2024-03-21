@@ -9,6 +9,7 @@ gem 'image_processing'
 gem 'faker'
 gem 'bootstrap', '~> 5.1.3'
 gem 'webpacker'
+gem 'kaminari'
 
 
 

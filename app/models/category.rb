@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-    # Your existing model code, such as validations and associations
+  has_many :products
   
     def self.ransackable_attributes(auth_object = nil)
       %w[name description]
