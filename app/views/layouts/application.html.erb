@@ -24,7 +24,7 @@
           <li class="nav-item">
             <%= link_to 'Products', products_path, class: 'nav-link' %>
           </li>
-          <!-- Insert the categories dropdown form here -->
+          
           <li class="nav-item dropdown">
             <%= form_with(url: categories_path, method: :get, local: true, class: "d-flex") do |form| %>
               <%= form.collection_select :id, Category.all, :id, :name, 

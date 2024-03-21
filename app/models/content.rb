@@ -4,6 +4,6 @@ class Content < ApplicationRecord
     end
   
     def self.ransackable_associations(auth_object = nil)
-      [] # Return an array of associations you want to allow for searching
+      [] # Return an array of associations want to allow for searching
     end
   end
