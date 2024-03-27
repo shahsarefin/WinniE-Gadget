@@ -1,0 +1,27 @@
+<h2>Checkout</h2>
+
+<% if @cart_items.present? %>
+  <% @cart_items.each do |item| %>
+    <div>
+      <%= item.product.name %> - 
+      <%= number_to_currency(item.product.price) %> x 
+      <%= item.quantity %>
+    </div>
+  <% end %>
+  <div>Subtotal: <%= number_to_currency(@subtotal) %></div>
+  <div>GST: <%= number_to_currency(@gst) %></div>
+  <div>PST: <%= number_to_currency(@pst) %></div>
+  <div>HST: <%= number_to_currency(@hst) %></div>
+  <div>Total: <%= number_to_currency(@total_price) %></div>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>
+
+<h3>Shipping Address</h3>
+<p>
+  Street: <%= current_user.address.street %><br>
+  City: <%= current_user.address.city %><br>
+  Province: <%= current_user.address.province.name %>
+</p>
+
+<%= link_to 'Confirm Order', confirm_order_path, method: :post, class: 'btn btn-primary' %>
