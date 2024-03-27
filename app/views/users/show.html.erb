@@ -1,0 +1,12 @@
+<h1>My Profile</h1>
+<p>Name: <%= @user.name %></p>
+<p>Email: <%= @user.email %></p>
+
+<% if @address %>
+  <p>Street: <%= @address.street %></p>
+  <p>City: <%= @address.city %></p>
+  <% if @province %>
+    <p>Province: <%= @province.name %></p>
+  <% end %>
+<% end %>
+
