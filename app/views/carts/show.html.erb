@@ -1,0 +1,18 @@
+<h2>Cart</h2>
+<% current_cart.each do |product_id, quantity| %>
+  <% product = Product.find(product_id) %>
+  <% total_price = product.price * quantity %>
+  <p>
+    <%= product.name %> - Quantity: <%= quantity %> : <%= quantity %> * $<%= product.price %> = $<%= total_price %>
+    <%= button_to 'Remove', remove_from_cart_cart_path(product_id: product.id), method: :delete %>
+    <%= form_with url: update_item_cart_path(product_id: product.id), method: :post, class: 'd-inline' do |form| %>
+      <%= form.number_field :quantity, value: quantity, min: 1 %>
+      <%= form.hidden_field :product_id, value: product.id %>
+      <%= form.submit "Update Quantity" %>
+    <% end %>
+  </p>
+<% end %>
+<p>Total Amount: $<%= @total_amount %></p>
+<%= link_to 'Checkout', checkout_path %>
+
+
