@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title yield(:title) %></title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= active_admin_application_javascript %>
+  <%= active_admin_application_stylesheet %>
+</head>
+<body>
+  <%= yield %>
+
+  <% if current_admin_user %>
+    <%= link_to "Sign Out", destroy_admin_user_session_path, method: :delete %>
+  <% end %>
+</body>
+</html>
