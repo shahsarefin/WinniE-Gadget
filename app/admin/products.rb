@@ -14,15 +14,14 @@ ActiveAdmin.register Product do
   filter :name
   filter :category
 
-  form do |f|
+  form html: { enctype: "multipart/form-data" } do |f|
     f.inputs 'Product Details' do
       f.input :name
       f.input :description
       f.input :price
       f.input :stock_quantity
-      f.input :category, as: :select, collection: Category.all
-      
-      f.input :images, as: :file, input_html: { multiple: true }
+      f.input :category, as: :select, collection: Category.all.collect { |c| [c.name, c.id] }
+      f.input :images, as: :file, input_html: { multiple: true, accept: 'image/*' }
     end
     f.actions
   end
