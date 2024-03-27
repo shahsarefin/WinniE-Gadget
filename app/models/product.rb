@@ -1,14 +1,19 @@
 class Product < ApplicationRecord
+  has_many :order_items
   has_many_attached :images
   belongs_to :category
   validates :name, :description, :price, :stock_quantity, presence: true
 
   scope :search_by_keyword, -> (keyword) {
-    where("name LIKE :keyword OR description LIKE :keyword", keyword: "%#{keyword}%")
+    where('LOWER(name) LIKE :pattern OR LOWER(description) LIKE :pattern', pattern: "%#{keyword.downcase}%")
+  }
+
+  scope :filter_by_category, -> (category_id) {
+    where(category_id: category_id) if category_id.present?
   }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id name description price stock_quantity category_id created_at updated_at]
+    ["category_id", "created_at", "description", "id", "id_value", "name", "price", "stock_quantity", "updated_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)
