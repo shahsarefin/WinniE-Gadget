@@ -1,0 +1,33 @@
+
+<h1>Order Confirmation</h1>
+
+<div class="order-details">
+  <p><strong>Order ID:</strong> <%= @order.id %></p>
+  <p><strong>Status:</strong> <%= @order.status %></p>
+  <p><strong>Order Date:</strong> <%= @order.created_at.strftime("%B %e, %Y") %></p>
+  
+  <!-- Display the address used for the order -->
+  <h2>Shipping Address</h2>
+  <p><%= @order.address.street %></p>
+  <p><%= @order.address.city %>, <%= @order.address.province.name %></p>
+
+  <!-- Display the order items -->
+  <h2>Items</h2>
+  <ul>
+    <% @order.order_items.each do |item| %>
+      <li>
+        <%= item.product.name %> x <%= item.quantity %>
+        at <%= number_to_currency(item.price) %> each
+      </li>
+    <% end %>
+  </ul>
+
+  <!-- Display the subtotal, taxes, and total -->
+  <p><strong>Subtotal:</strong> <%= number_to_currency(@order.subtotal) %></p>
+  <p><strong>Taxes:</strong> <%= number_to_currency(@order.calculate_tax) %></p>
+  <p><strong>Total:</strong> <%= number_to_currency(@order.total_price_with_tax) %></p>
+
+  
+  
+  <%= link_to 'Back to Store', root_path, class: 'button' %>
+</div>
