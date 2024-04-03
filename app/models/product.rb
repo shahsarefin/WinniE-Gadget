@@ -5,7 +5,7 @@ class Product < ApplicationRecord
   validates :name, :description, :price, :stock_quantity, presence: true
 
   scope :search_by_keyword, -> (keyword) {
-    where('LOWER(name) LIKE :pattern OR LOWER(description) LIKE :pattern', pattern: "%#{keyword.downcase}%")
+    where('LOWER(name) LIKE ?', "%#{keyword.downcase}%")
   }
 
   scope :filter_by_category, -> (category_id) {
