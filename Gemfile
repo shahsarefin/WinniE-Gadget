@@ -7,6 +7,8 @@ gem 'activeadmin'
 gem 'sassc', '~> 2.0'
 # Dependency for ActiveStorage to process and transform images
 gem 'image_processing'
+gem 'active_storage_validations'
+
 gem 'faker'
 gem 'bootstrap', '~> 5.1.3'
 gem 'webpacker'
