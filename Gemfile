@@ -5,6 +5,7 @@ ruby "3.3.0"
 gem 'devise'
 gem 'activeadmin'
 gem 'sassc', '~> 2.0'
+# Dependency for ActiveStorage to process and transform images
 gem 'image_processing'
 gem 'faker'
 gem 'bootstrap', '~> 5.1.3'
