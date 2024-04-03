@@ -8,6 +8,14 @@
   </div>
 <% end %>
 
+<!-- Display search terms -->
+<% if params[:keyword].present? || params[:category_id].present? %>
+  <div class="search-summary">
+    <h3>Your Search Results for: "<%= params[:keyword] %>" <% if params[:category_id].present? %> in <%= Category.find(params[:category_id]).name %> Category<% end %></h3>
+  </div>
+<% end %>
+<!-- end -->
+
 <h1 class="my-4 text-center">Browse All Products</h1>
 <div class="row">
   <% @products.each do |product| %>
