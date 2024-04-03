@@ -1,5 +1,6 @@
 ActiveAdmin.register Product do
   
+  # Added Permiting image uploads 
   permit_params :name, :description, :price, :stock_quantity, :category_id, images: []
 
   index do
