@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  get 'charges/new'
+  get 'charges/create'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
- 
   devise_for :users, path: 'auth'
 
   get '/about', to: 'static#show', page_name: 'about'
@@ -23,12 +24,19 @@ Rails.application.routes.draw do
   resources :orders, only: [:new, :create, :show]
   resource :checkout, only: [:show, :create]
 
-  
   delete '/users/sign_out', to: 'devise/sessions#destroy', as: :user_sign_out
 
   get 'profile', to: 'users#show', as: :user_profile
 
-  
-post 'orders/confirm', to: 'orders#confirm', as: 'confirm_order'
-  
+  post 'webhooks/stripe', to: 'webhooks#stripe'
+
+  # Route for creating payment intent
+  resources :checkouts, only: [] do
+    post :create_payment_intent, on: :collection
+  end
+  resources :charges, only: [:new, :create]
+  # Route for redirecting to payment form
+  get '/checkout/payment', to: 'charges#new', as: 'new_payment_checkout'
+  post '/checkout/payment/create_payment_intent', to: 'checkouts#create_payment_intent', as: 'create_payment_intent_checkout'
+
 end

@@ -1,0 +1,9 @@
+<%= form_tag charges_path do %>
+    <!-- Product Information -->
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>"
+            data-description="Your Purchase Description"
+            data-amount="500" <!-- Amount in cents -->
+            data-locale="auto"></script>
+  <% end %>
+  

@@ -1,65 +1,60 @@
 class CheckoutsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_cart_items_and_total, only: [:show]
+  before_action :set_stripe_api_key, only: [:create_payment_intent]
 
   def show
-    @cart_items = current_cart_items
-    @subtotal = calculate_total_price(@cart_items)
-    
-    user_province = current_user.address&.province
-    
-    if user_province
-      gst_rate = user_province.gst_rate || 0
-      pst_rate = user_province.pst_rate || 0
-      hst_rate = user_province.hst_rate || 0
-
-      @gst = gst_rate * @subtotal / 100.0
-      @pst = pst_rate * @subtotal / 100.0
-      @hst = hst_rate * @subtotal / 100.0
-
-      if hst_rate > 0
-        @gst = 0
-        @pst = 0
-      end
-
-      @total_price = @subtotal + @gst + @pst + @hst
-    else
-      redirect_to some_path_to_add_or_edit_address, notice: 'Please complete your shipping address information.'
-      return
+    if @total_price <= 0
+      redirect_to cart_path, alert: "Your cart is empty."
     end
-    
-    @order = current_user.orders.build
   end
-  
 
+  def create_payment_intent
+    # Check if cart is empty
+    puts "@total_price: #{@total_price.inspect}" # Debugging statement
+    redirect_to cart_path, alert: "Your cart is empty." and return if @total_price.nil? || @total_price <= 0
   
+    # Fetch user's province
+    user_province = current_user.address.province
   
-
-  def create
-    @order = current_user.orders.build(order_params)
-
-    if @order.save
-      add_cart_items_to_order(@order)
-      @order.calculate_total_with_taxes
-      clear_cart
-      redirect_to order_path(@order), notice: 'Order placed successfully.'
-    else
-      flash.now[:alert] = 'Error occurred while processing your order.'
-      render :show
+    # Calculate taxes based on user's province
+    taxes = user_province.calculate_taxes(@subtotal)
+  
+    # Calculate total price including taxes
+    total_price_with_taxes = @subtotal + taxes
+  
+    # Create the payment intent
+    payment_intent = Stripe::PaymentIntent.create(
+      amount: (total_price_with_taxes * 100).to_i, # Stripe expects amount in cents
+      currency: 'usd',
+      metadata: { user_id: current_user.id }
+    )
+  
+    # Redirect to Stripe's payment page, or send the client secret to your frontend
+    # (Depending on your integration method, this may vary)
+    respond_to do |format|
+      format.json { render json: { clientSecret: payment_intent.client_secret } }
+      format.html { redirect_to new_payment_checkout_path } # Redirect to payment form
     end
+  rescue StandardError => e
+    # Redirect to the payment form page if an error occurs
+    redirect_to new_payment_checkout_path, alert: "An error occurred. Please try again."
   end
 
   private
 
-  def order_params
-    params.require(:order).permit(
-      :customer_name,
-      address_attributes: [:street, :city, :province_id]
-    )
+  def set_cart_items_and_total
+    @cart_items = current_cart_items
+    @subtotal = calculate_total_price(@cart_items)
+    @total_price = @subtotal || 0 # Assign 0 if @subtotal is nil
+    puts "@total_price in set_cart_items_and_total: #{@total_price.inspect}" # Debugging statement
   end
 
   def calculate_total_price(cart_items)
     cart_items.sum { |item| item.product.price * item.quantity }
   end
-  
-  
+
+  def set_stripe_api_key
+    Stripe.api_key = Rails.application.credentials.dig(:stripe, :sk_test_51Oys1NJCYOsLGkPMJzbSFV7jOXP9Ip3jDczYzXW9f7rPK0v7FPuBd86DVE92i76mEnd5SOExCGEyN8dFjuAqwGVT00022538eU)
+  end
 end
