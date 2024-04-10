@@ -30,13 +30,4 @@ Rails.application.routes.draw do
 
   post 'webhooks/stripe', to: 'webhooks#stripe'
 
-  # Route for creating payment intent
-  resources :checkouts, only: [] do
-    post :create_payment_intent, on: :collection
-  end
-  resources :charges, only: [:new, :create]
-  # Route for redirecting to payment form
-  get '/checkout/payment', to: 'charges#new', as: 'new_payment_checkout'
-  post '/checkout/payment/create_payment_intent', to: 'checkouts#create_payment_intent', as: 'create_payment_intent_checkout'
-
 end
