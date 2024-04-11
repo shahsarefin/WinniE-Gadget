@@ -65,7 +65,7 @@ class CheckoutsController < ApplicationController
   end
 
   def thank_you_path
-    # Define your thank you path here, for example:
-    # thank_you_checkouts_path (make sure this route is defined in your routes.rb)
+    
+    
   end
 end
