@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   end
 
   resources :orders, only: [:new, :create, :show]
-  resource :checkout, only: [:show, :create]
+  resources :checkouts, only: [:new, :create]
+
 
   delete '/users/sign_out', to: 'devise/sessions#destroy', as: :user_sign_out
 
