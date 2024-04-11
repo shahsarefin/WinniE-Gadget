@@ -1,43 +1,56 @@
-<h2>Checkout</h2>
+<h2>Your Order Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cart_items.each do |item| %>
+      <tr>
+        <td><%= item[:product].name %></td>
+        <td><%= item[:quantity] %></td>
+        <td>$<%= item[:product].price %></td>
+        <td>$<%= item[:total_price] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <% if user_signed_in? %>
-  <!-- Display user details and calculated tax -->
-  <p>Province: <%= @province %></p>
+  <%# Since the user is signed in, we assume the province is already known %>
+  <p>Province: <%= current_user.address.province.name %></p>
   <p>Total Amount: $<%= @total_amount %></p>
-  <p>Tax Amount: $<%= @tax_amount %></p>
-  <p>Total Amount with Tax: $<%= @total_with_tax %></p>
-<% elsif @province.blank? %>
-  <%= form_with(url: new_checkout_path, method: :get) do |form| %>
-    <%= form.label :province, 'Enter Your Province:' %>
-    <%= form.text_field :province %>
-    <%= form.submit 'Submit' %>
+  <% @tax_components.each do |name, amount| %>
+    <p><%= name.to_s.upcase %> Amount: $<%= amount %></p>
   <% end %>
-<% else %>
-  <table>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Unit Price</th>
-        <th>Total Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cart_items.each do |item| %>
-        <tr>
-          <td><%= item[:product].name %></td>
-          <td><%= item[:quantity] %></td>
-          <td>$<%= item[:product].price %></td>
-          <td>$<%= item[:total_price] %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <p>Total Amount: $<%= @total_amount %></p>
-  <p>Tax Amount: $<%= @tax_amount %></p>
   <p>Total Amount with Tax: $<%= @total_with_tax %></p>
 
-  <%= link_to 'Place Order', orders_path, class: 'btn btn-primary' %>
-  <%= link_to 'Back to Cart', cart_path, class: 'btn btn-secondary' %>
+  <%= button_to 'Place Order', place_order_checkouts_path, method: :post, class: 'btn btn-primary' %>
+
+<% elsif @province_name == 'Enter Your Province' %>
+  <%# For non-signed-in users, we provide a form to enter their province %>
+  <%= form_with(url: submit_province_checkouts_path, local: true, method: :post) do |form| %>
+    <div class="form-group">
+      <%= form.label :province, 'Enter Your Province:' %>
+      <%= form.text_field :province, class: 'form-control' %>
+    </div>
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+  <% end %>
+  
+<% else %>
+  <%# If the non-signed-in user has entered their province, we display their tax details %>
+  <p>Province: <%= @province_name %></p>
+  <p>Total Amount: $<%= @total_amount %></p>
+  <% @tax_components.each do |name, amount| %>
+    <p><%= name.to_s.upcase %> Amount: $<%= amount %></p>
+  <% end %>
+  <p>Total Amount with Tax: $<%= @total_with_tax %></p>
+
+  <%= button_to 'Place Order', place_order_checkouts_path, method: :post, class: 'btn btn-primary' %>
 <% end %>
+
+<%= link_to 'Back to Cart', cart_path, class: 'btn btn-secondary' %>

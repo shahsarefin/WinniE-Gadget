@@ -22,13 +22,18 @@ Rails.application.routes.draw do
   end
 
   resources :orders, only: [:new, :create, :show]
-  resources :checkouts, only: [:new, :create]
-
+  resources :checkouts, only: [:new, :create] do
+    collection do
+      post :submit_province
+    end
+  end
 
   delete '/users/sign_out', to: 'devise/sessions#destroy', as: :user_sign_out
 
   get 'profile', to: 'users#show', as: :user_profile
 
   post 'webhooks/stripe', to: 'webhooks#stripe'
+  post 'checkouts/place_order', to: 'checkouts#place_order', as: :place_order_checkouts
+
 
 end
