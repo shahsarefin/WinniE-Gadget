@@ -20,7 +20,8 @@ Rails.application.routes.draw do
     post 'update_cart_item/:product_id', to: 'carts#update_cart_item', as: 'update_item'
     delete 'remove_from_cart/:product_id', to: 'carts#remove_from_cart', as: 'remove_from_cart'
   end
-
+  
+  get 'orders/thank_you', to: 'orders#thank_you', as: :thank_you_orders
   resources :orders, only: [:new, :create, :show]
   resources :checkouts, only: [:new, :create] do
     collection do
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
 
   post 'webhooks/stripe', to: 'webhooks#stripe'
   post 'checkouts/place_order', to: 'checkouts#place_order', as: :place_order_checkouts
+
 
 
 end

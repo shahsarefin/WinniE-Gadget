@@ -23,18 +23,17 @@ class CheckoutsController < ApplicationController
   end
 
   def submit_province
-    # Logic to handle the province submission.
-    # For example, set the submitted province in a session or instance variable.
+    
     session[:province] = params[:province]
 
-    # Redirect back to the 'new' action or render 'new' directly with the updated information
+    
     redirect_to new_checkout_path
   end
 
   def place_order
-    # Code to handle order placement...
-    # This section would need your actual order placement logic
-    redirect_to thank_you_path
+    
+    # Redirect to the correct thank you path
+    redirect_to thank_you_orders_path   
   end
   
   private

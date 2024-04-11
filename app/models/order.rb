@@ -2,6 +2,7 @@
 class Order < ApplicationRecord
   has_many :order_items
   belongs_to :customer
+  # the address is saved along with the order by using nested attributes 
   belongs_to :user
   has_one :address
   accepts_nested_attributes_for :address
