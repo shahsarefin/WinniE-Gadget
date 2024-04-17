@@ -18,8 +18,18 @@ class Product < ApplicationRecord
     where(category_id: category_id) if category_id.present?
   }
 
+    # scopes for the requirements 2.4
+     # Scope for products on sale
+  scope :on_sale, -> { where(on_sale: true) }
+
+  # Scope for new products
+  scope :new_products, -> { where('created_at >= ?', 3.days.ago) }
+
+  # Scope for recently updated products
+  scope :recently_updated, -> { where('updated_at >= ? AND created_at < ?', 3.days.ago, 3.days.ago) }
+
   def self.ransackable_attributes(auth_object = nil)
-    ["category_id", "created_at", "description", "id", "id_value", "name", "price", "stock_quantity", "updated_at"]
+    ["category_id", "created_at", "description", "id", "id_value", "name", "price", "stock_quantity", "updated_at", "on_sale"]
   end
 
   def self.ransackable_associations(auth_object = nil)
