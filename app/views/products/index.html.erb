@@ -2,10 +2,9 @@
 <h1 class="my-4 text-center">Our All Products</h1>
 
 <div class="product-filters text-center">
-  <%= link_to 'All Products', products_path %>
-  <%= link_to 'On Sale', products_path(on_sale: 'true') %>
-  <%= link_to 'New Products', products_path(new: 'true') %>
-  <%= link_to 'Recently Updated', products_path(recently_updated: 'true') %>
+  <%= link_to 'All Products', products_path, class: 'btn btn-filter-active' %> <!-- Use 'btn-filter-active' if this filter is active -->
+  <%= link_to 'On Sale', products_path(on_sale: 'true'), class: 'btn btn-filter' %>
+  <%= link_to 'Recently Updated', products_path(recently_updated: 'true'), class: 'btn btn-filter' %>
 </div>
 
 <div class="row">

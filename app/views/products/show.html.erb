@@ -3,39 +3,45 @@
     <div class="col-md-6">
       <!-- Product image -->
       <% if @product.images.attached? %>
-        <%= image_tag url_for(@product.images.first), class: "img-fluid", alt: "Product Image", width: "800", height: "800" %>
+        <%= image_tag url_for(@product.images.first), class: "img-fluid product-image", alt: "Product Image" %>
       <% else %>
         <!-- Display a placeholder image or text -->
-        <%= image_tag "placeholder.png", class: "img-fluid", alt: "Placeholder Image", width: "800", height: "800" %>
+        <%= image_tag "placeholder.png", class: "img-fluid product-image", alt: "Placeholder Image" %>
       <% end %>
     </div>
     <div class="col-md-6">
       <!-- Product details -->
-      <h1><%= @product.name %></h1>
-      <p>Description: <%= @product.description %></p>
-      <p>Price: $<%= @product.price %></p>
-      <%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: @product.id), method: :post, class: 'btn btn-primary btn-block' %>
+      <div class="product-details">
+        <h1><%= @product.name %></h1>
+        <p class="product-description">Description: <%= @product.description %></p>
+        <p class="product-price">Price: $<%= @product.price %></p>
+        <%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: @product.id), method: :post, class: 'btn btn-primary btn-block product-button' %>
+      </div>
     </div>
   </div>
 
   <!-- Related Products -->
   <% if @related_products.any? %>
-    <h2>Related Products</h2>
+    <h2 class="related-products-title">Related Products</h2>
     <div class="row">
       <% @related_products.first(3).each do |related_product| %>
-        <div class="col-md-4">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
           <div class="card h-100">
-            <% if related_product.images.attached? %>
-              <%= image_tag related_product.images.first, class: "card-img-top" %>
-            <% else %>
-              <%= image_tag 'placeholder-image.png', class: "card-img-top" %>
+            <%= link_to product_path(related_product) do %>
+              <% if related_product.images.attached? %>
+                <%= image_tag related_product.images.first, class: "card-img-top" %>
+              <% else %>
+                <!-- Using placeholder from placehold.co -->
+                <%= image_tag('https://placehold.co/600x400', class: "card-img-top") %>
+              <% end %>
             <% end %>
             <div class="card-body">
               <h5 class="card-title"><%= related_product.name %></h5>
-              <p class="card-text">$<%= number_to_currency(related_product.price) %></p>
-              <div class="d-grid gap-2">
-                <%= link_to 'View Product', product_path(related_product), class: 'btn btn-primary btn-block' %>
-                <%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: related_product.id), method: :post, class: 'btn btn-primary btn-block' %>
+              <p class="card-text"><%= related_product.description %></p>
+              <p class="card-text"><%= number_to_currency(related_product.price) %></p>
+              <div class="d-flex justify-content-between">
+                <%= link_to 'View Product', product_path(related_product), class: 'btn btn-filter' %>
+                <%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: related_product.id), method: :post, class: 'btn btn-add-to-cart' %>
               </div>
             </div>
           </div>
