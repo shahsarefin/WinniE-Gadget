@@ -6,8 +6,11 @@ Rails.application.routes.draw do
 
   devise_for :users, path: 'auth'
 
-  get '/about', to: 'static#show', page_name: 'about'
-  get '/contact', to: 'static#show', page_name: 'contact'
+  # get '/about', to: 'static#show', page_name: 'about'
+  get 'about', to: 'static#about'
+  # get '/contact', to: 'static#show', page_name: 'contact'
+  get 'contact', to: 'static#contact'
+
 
   root 'home#index'
   get 'products', to: 'products#index'
