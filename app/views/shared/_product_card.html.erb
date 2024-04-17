@@ -1,0 +1,22 @@
+<!-- app/views/shared/_product_card.html.erb -->
+<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+  <div class="card h-100">
+    <%= link_to product_path(product) do %>
+      <% if product.images.attached? %>
+        <%= image_tag(product.images.first, class: "card-img-top") %>
+      <% else %>
+        <!-- Using placeholder from placehold.co -->
+        <%= image_tag('https://placehold.co/600x400', class: "card-img-top") %>
+      <% end %>
+    <% end %>
+    <div class="card-body">
+      <h5 class="card-title"><%= product.name %></h5>
+      <p class="card-text"><%= product.description %></p>
+      <p class="card-text"><%= number_to_currency(product.price) %></p>
+      <div class="d-flex justify-content-between">
+        <%= link_to 'View Product', product_path(product), class: 'btn btn-secondary' %>
+        <%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: product.id), method: :post, class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+</div>

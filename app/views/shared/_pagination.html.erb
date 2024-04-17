@@ -1,0 +1,25 @@
+<!-- _pagination.html.erb -->
+
+<% if @products.total_pages > 1 %>
+  <nav aria-label="Pagination">
+    <ul class="pagination justify-content-center" style="font-size: 1.2rem;">
+      <% if @products.current_page > 1 %>
+        <li class="page-item">
+          <%= link_to 'Previous', { page: @products.current_page - 1 }, class: 'page-link' %>
+        </li>
+      <% end %>
+
+      <% @products.total_pages.times do |i| %>
+        <li class="page-item <%= 'active' if i+1 == @products.current_page %>">
+          <%= link_to i+1, { page: i+1 }, class: 'page-link' %>
+        </li>
+      <% end %>
+
+      <% if @products.current_page < @products.total_pages %>
+        <li class="page-item">
+          <%= link_to 'Next', { page: @products.current_page + 1 }, class: 'page-link' %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+<% end %>
