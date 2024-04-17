@@ -7,6 +7,9 @@ class Order < ApplicationRecord
   has_one :address
   accepts_nested_attributes_for :address
 
+  validates :customer, presence: true
+
+
   def calculate_total_with_taxes
     subtotal = order_items.sum(&:total_price)
     taxes = user.address.province.calculate_taxes(subtotal)
