@@ -1,4 +1,4 @@
-.body-background {
+/* .body-background {
   background-color: #f4f4f4;
 }
 
@@ -24,9 +24,9 @@ h6 {
   border: none;
 }
 
-/* Style for product images */
+
 .card-img-top {
-  height: 300px; /* Fixed height, or use 'object-fit' to control the image scaling */
+  height: 300px; 
   width: 250px;
   object-fit: cover;
 }
@@ -57,7 +57,7 @@ h6 {
   color: #ffd700;
 }
 
-/* Style for the pagination */
+
 .pagination {
   justify-content: center;
 }
@@ -77,4 +77,6 @@ h6 {
   font-size: 0.85em;
   color: #7f8c8d;
   text-decoration: line-through;
-}
+} */
+
+

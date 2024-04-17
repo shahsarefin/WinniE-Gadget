@@ -1,0 +1,24 @@
+<!-- app/views/shared/_newsletter_subscription.html.erb -->
+<div class="newsletter-subscription bg-dark text-light py-4 mt-5 mb-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4">
+        <h5 class="text-info"><i class="fas fa-envelope-open-text"></i> WinniEGadget</h5>
+      </div>
+      <div class="col-md-5">
+        <p class="lead">Subscribe to our Newsletter</p>
+        <p>Get all the latest information, Sales and Offers.</p>
+      </div>
+      <div class="col-md-3">
+        <%= form_with(url: newsletter_subscriptions_path, method: "post", local: true) do |form| %>
+          <div class="input-group">
+            <%= form.email_field :email, placeholder: "Email address here...", class: "form-control bg-transparent text-white" %>
+            <div class="input-group-append">
+            <%= form.submit "Subscribe", class: "btn btn-subscribe" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

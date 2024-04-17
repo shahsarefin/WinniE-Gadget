@@ -35,7 +35,7 @@
           <%= form.collection_select :category_id, Category.all, :id, :name, { include_blank: 'All Categories' }, { class: 'custom-select bg-white text-dark' } %>
           <%= form.text_field :keyword, value: params[:keyword], placeholder: "Enter keyword", class: "form-control", aria_label: "Search" %>
           <div class="input-group-append">
-          <%= form.submit 'Search', class: 'btn btn-outline-light', style: 'background-color: #ffffff; color: #000000;' %>
+          <%= form.submit 'Search', class: 'btn btn-outline-light ms-2', style: 'background-color: white; color: black;' %>
 
           </div>
         </div>

@@ -39,6 +39,10 @@ Rails.application.routes.draw do
   post 'webhooks/stripe', to: 'webhooks#stripe'
   post 'checkouts/place_order', to: 'checkouts#place_order', as: :place_order_checkouts
 
+  
+post 'newsletter_subscriptions', to: 'newsletter_subscriptions#create'
+
+
 
 
 end

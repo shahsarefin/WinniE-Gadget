@@ -1,4 +1,15 @@
-<h1>Welcome to WinniEGadget!</h1>
-<p>WinniEGadget is an online store that sells a variety of gadgets and electronics. Browse our products and find the perfect gadget for you!</p>
+<%= render 'shared/hero_section' %>
 
+<div class="container my-5">
+  <div class="row">
+    <div class="col text-center">
+      <h2 class="display-4">Innovative Gadgets</h2>
+      <p class="lead">Experience the future of technology with our curated selection.</p>
+      <%= link_to 'Explore Products', products_path, class: 'btn btn-lg btn-primary' %>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/features' %>
+<%= render 'shared/service_highlights' %>
 

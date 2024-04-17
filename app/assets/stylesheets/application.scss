@@ -14,19 +14,14 @@
  *= require_self
  */
 
-/* Bootstrap styles */
 @import "bootstrap";
 
-/* Custom styles */
-
-/* Add space between header and content */
 header {
-  margin-bottom: 20px; /* Adjust the value as needed */
+  margin-bottom: 20px; 
 }
 
-/* Add space between content and footer */
 main {
-  margin-bottom: 20px; /* Adjust the value as needed */
+  margin-bottom: 20px; 
 }
 
 .body-background {
@@ -110,44 +105,24 @@ h6 {
   text-decoration: line-through;
 } 
 
-/* Default styles */
 .header {
     background-color: blue;
   }
   
-  /* Tablet styles */
+
   @media (max-width: 768px) {
     .header {
       background-color: red;
     }
   }
   
-  /* Mobile styles */
+
   @media (max-width: 576px) {
     .header {
       background-color: green;
     }
   }
-  
-  /* Carousel image size */
-  .carousel-item img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  /* For larger screens */
-  @media (min-width: 768px) {
-    .carousel-item img {
-      max-height: 400px; /* Set the maximum height for larger screens */
-    }
-  }
-  
-  /* For smaller screens */
-  @media (max-width: 576px) {
-    .carousel-item img {
-      max-height: 250px; /* Set the maximum height for smaller screens */
-    }
-  }
+
 
   /*product page button */
   .btn-primary {
@@ -170,14 +145,75 @@ h6 {
     border-color: #84b9d4;
   }
 
+/* Newsletter Subscription Styles */
+.newsletter-subscription {
+    background-color: #17a2b8; 
+    padding: 2rem 0; 
+    margin-top: 2rem; 
+    margin-bottom: 2rem; 
   
-  /* Footer styles */
-  .footer {
-    background-color: blue; /* Change as needed */
-    color: white; /* Change text color as needed */
+    .newsletter-form .btn-primary {
+      background-color: #012A4A !important; 
+      border-color: #012A4A !important;
+      color: #fff !important;
+  
+      &:hover {
+        background-color: #205d7a !important; 
+        border-color: #205d7a !important;
+      }
+    }
+  
+    .form-control {
+      background-color: transparent;
+      border: 1px solid #fff;
+      color: #fff;
+  
+      &:focus {
+        background-color: transparent;
+        border-color: #fff;
+        box-shadow: none; 
+      }
+    }
   }
   
-  /* Add more styles for other elements as needed */
+
+  
+  /* Footer Styles */
+  .footer {
+    background-color: #343a40; 
+    color: #fff; 
+    padding: 2rem 0; 
+  
+    a {
+      color: #fff; 
+      &:hover {
+        color: #bbb; 
+      }
+    }
+    
+    .footer-info {
+      margin-bottom: 1rem; 
+    }
+  }
+  
+  
+  .footer .btn-primary {
+    background-color: #012A4A; 
+    border-color: #012A4A; 
+    
+    &:hover {
+      background-color: #205d7a; 
+      border-color: #205d7a;
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .newsletter-subscription, .footer {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
   
 
 
