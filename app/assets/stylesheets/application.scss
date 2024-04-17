@@ -14,4 +14,171 @@
  *= require_self
  */
 
+/* Bootstrap styles */
 @import "bootstrap";
+
+/* Custom styles */
+
+/* Add space between header and content */
+header {
+  margin-bottom: 20px; /* Adjust the value as needed */
+}
+
+/* Add space between content and footer */
+main {
+  margin-bottom: 20px; /* Adjust the value as needed */
+}
+
+.body-background {
+  background-color: #f4f4f4;
+}
+
+.navbar-custom {
+  background-color: #00a6b4;
+}
+
+.nav-link {
+  color: #ffffff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #333333;
+}
+
+.card {
+  background-color: #ffffff;
+  border: none;
+}
+
+
+.card-img-top {
+  height: 300px; 
+  width: 250px;
+  object-fit: cover;
+}
+
+.card-title {
+  color: #333333;
+}
+
+.price {
+  color: #333333;
+}
+
+.label-hot {
+  color: #e74c3c;
+}
+
+.btn-add-to-cart {
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 0;
+}
+
+.btn-add-to-cart:hover {
+  background-color: #0056b3;
+}
+
+.star-rating .fa-star.checked {
+  color: #ffd700;
+}
+
+
+.pagination {
+  justify-content: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sale-price {
+  font-size: 1.25em;
+  color: #27ae60;
+}
+
+.original-price {
+  font-size: 0.85em;
+  color: #7f8c8d;
+  text-decoration: line-through;
+} 
+
+/* Default styles */
+.header {
+    background-color: blue;
+  }
+  
+  /* Tablet styles */
+  @media (max-width: 768px) {
+    .header {
+      background-color: red;
+    }
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 576px) {
+    .header {
+      background-color: green;
+    }
+  }
+  
+  /* Carousel image size */
+  .carousel-item img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* For larger screens */
+  @media (min-width: 768px) {
+    .carousel-item img {
+      max-height: 400px; /* Set the maximum height for larger screens */
+    }
+  }
+  
+  /* For smaller screens */
+  @media (max-width: 576px) {
+    .carousel-item img {
+      max-height: 250px; /* Set the maximum height for smaller screens */
+    }
+  }
+
+  /*product page button */
+  .btn-primary {
+    background-color: #012A4A;
+    border-color: #012A4A;
+  }
+  
+  .btn-primary:hover {
+    background-color: #205d7a;
+    border-color: #205d7a;
+  }
+  
+  .btn-secondary {
+    background-color: #A9D6E5;
+    border-color: #A9D6E5;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #84b9d4;
+    border-color: #84b9d4;
+  }
+
+  
+  /* Footer styles */
+  .footer {
+    background-color: blue; /* Change as needed */
+    color: white; /* Change text color as needed */
+  }
+  
+  /* Add more styles for other elements as needed */
+  
+
+
+
