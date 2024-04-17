@@ -1,0 +1,9 @@
+<h2>Select Your Province</h2>
+
+<%= form_with url: submit_province_checkouts_path, method: :post do |form| %>
+  <div class="form-group">
+    <%= form.label :province, 'Province:' %>
+    <%= form.select :province, Province.all.map { |p| [p.name, p.id] }, { include_blank: 'Please select...' }, class: 'form-control' %>
+  </div>
+  <%= form.submit 'Submit', class: 'btn btn-primary' %>
+<% end %>

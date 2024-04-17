@@ -1,12 +1,20 @@
-<h1>My Profile</h1>
-<p>Name: <%= @user.name %></p>
-<p>Email: <%= @user.email %></p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <!-- Personalize the page title with the user's name -->
+      <h1 class="mb-4"><%= @user.name %>'s Profile</h1>
+      <div class="profile-details">
+        <p class="profile-item"><strong>Name:</strong> <%= @user.name %></p>
+        <p class="profile-item"><strong>Email:</strong> <%= @user.email %></p>
 
-<% if @address %>
-  <p>Street: <%= @address.street %></p>
-  <p>City: <%= @address.city %></p>
-  <% if @province %>
-    <p>Province: <%= @province.name %></p>
-  <% end %>
-<% end %>
-
+        <% if @address %>
+          <p class="profile-item"><strong>Street:</strong> <%= @address.street %></p>
+          <p class="profile-item"><strong>City:</strong> <%= @address.city %></p>
+          <% if @province %>
+            <p class="profile-item"><strong>Province:</strong> <%= @province.name %></p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

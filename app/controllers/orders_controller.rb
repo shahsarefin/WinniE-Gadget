@@ -15,40 +15,47 @@ class OrdersController < ApplicationController
   end
 
   def create
+    # Ensure there are items in the cart before proceeding
+    if current_cart.blank?
+      redirect_to cart_path, alert: 'Your cart is empty.'
+      return
+    end
     
     Order.transaction do
-      
-      # The association between the order and the user 
       @order = current_user.orders.build(order_params)
       @order.order_date = Time.now
       @order.status = "pending"
       
-     
       current_cart.each do |product_id, quantity|
         product = Product.find(product_id)
         @order.order_items.build(product: product, quantity: quantity, price: product.price)
       end
       
-      # Save the order, which also saves the associated address and order_items
+      if @order.save
+        session[:cart] = nil  # Clear the cart for both guests and signed users
+        redirect_to thank_you_path, notice: 'Thank you for your order!'
+      else
+        Rails.logger.info "Failed to save the order. Errors: #{@order.errors.full_messages.join(', ')}"
+        flash.now[:error] = "There was a problem processing your order."
+        render :new
+      end
       
-      @order.save!
-      # Clear the cart session after a successful order placement
-      session.delete(:cart)
     end
-    
-  # Redirect to the thank you page instead of the order show page
-  redirect_to thank_you_orders_path
-rescue => e
-  flash[:error] = "There was a problem processing your order: #{e.message}"
-  render :new
-end
+  rescue => e
+    flash[:error] = "There was a problem processing your order: #{e.message}"
+    render :new
+  end
+  
+  
+  
 
   private
 
   #  the address is saved along with the order by using nested attributes
   def order_params
-    params.require(:order).permit(:customer_id, address_attributes: [:street, :city, :province, :zipcode])
+    params.require(:order).permit(:order_date, :status, order_items_attributes: [:product_id, :quantity, :price])
   end
+  
 
   
   def set_order
@@ -73,10 +80,12 @@ end
 
   
   def current_cart
-    
+    session[:cart] ||= {}
   end
+  
 
   def thank_you
-    
+    session.delete(:cart)
   end
+  
 end

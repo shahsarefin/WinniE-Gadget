@@ -38,6 +38,11 @@ class CartsController < ApplicationController
     redirect_to cart_path, notice: 'Item removed from cart'
   end
 
+  def clear_cart
+    session[:cart] = {}
+    redirect_to thank_you_orders_path, notice: 'Thank you for your order! Your cart has been cleared.'
+  end
+
   private
 
   def set_product

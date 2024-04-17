@@ -1,16 +1,23 @@
 class CheckoutsController < ApplicationController
+  before_action :set_province_name, only: [:new]
+
+  def select_province
+    if user_signed_in? && current_user.address&.province.present? || session[:province].present?
+      redirect_to new_checkout_path
+    else
+      # If this branch is executed, it implies the view `select_province.html.erb` should be rendered.
+      # Make sure the view exists at app/views/checkouts/select_province.html.erb
+    end
+  end
+
+  def submit_province
+    # Store the selected province in the session and redirect to the new checkout page
+    session[:province] = params[:province]
+    redirect_to new_checkout_path
+  end
+
   def new
-    # Check if there's a province in the session first
-    province_from_session = session[:province]
-
-    @province_name = if user_signed_in? && current_user.address
-                       current_user.address.province.try(:name)
-                     elsif province_from_session
-                       province_from_session
-                     else
-                       'Enter Your Province'
-                     end
-
+    # Setup for the new checkout page, including calculating taxes based on the province
     @cart_items = current_cart.map do |product_id, quantity|
       product = Product.find(product_id)
       total_price = product.price * quantity
@@ -22,21 +29,26 @@ class CheckoutsController < ApplicationController
     @total_with_tax = @total_amount + @tax_components.values.sum
   end
 
-  def submit_province
-    
-    session[:province] = params[:province]
-
-    
-    redirect_to new_checkout_path
-  end
-
   def place_order
-    
-    # Redirect to the correct thank you path
-    redirect_to thank_you_orders_path   
+    # Placeholder for the logic to place an order
+    redirect_to thank_you_orders_path
   end
   
   private
+
+  def set_province_name
+    if user_signed_in? && current_user.address&.province.present?
+      @province_name = current_user.address.province.name
+    elsif session[:province].present?
+      # Assuming Province is your model name and it has a `name` attribute
+      province = Province.find_by(id: session[:province])
+      @province_name = province&.name || 'Enter Your Province'
+    else
+      @province_name = 'Enter Your Province'
+    end
+  end
+  
+  
 
   def calculate_tax_components(province_name, total)
     tax_rates = {

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     post 'add_to_cart/:product_id', to: 'carts#add_to_cart', as: :add_to_cart
     post 'update_cart_item/:product_id', to: 'carts#update_cart_item', as: 'update_item'
     delete 'remove_from_cart/:product_id', to: 'carts#remove_from_cart', as: 'remove_from_cart'
+    delete 'clear', to: 'carts#clear_cart', as: 'clear_cart' 
   end
   
   get 'orders/thank_you', to: 'orders#thank_you', as: :thank_you_orders
@@ -37,7 +38,13 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#show', as: :user_profile
 
   post 'webhooks/stripe', to: 'webhooks#stripe'
-  post 'checkouts/place_order', to: 'checkouts#place_order', as: :place_order_checkouts
+  resources :checkouts, only: [:new, :create] do
+    collection do
+      get :select_province
+      post :submit_province
+      post :place_order 
+    end
+  end
 
   
 post 'newsletter_subscriptions', to: 'newsletter_subscriptions#create'

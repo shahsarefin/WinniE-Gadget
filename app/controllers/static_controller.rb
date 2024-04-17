@@ -12,7 +12,7 @@ class StaticController < ApplicationController
   end
 
   def contact
-    # Any logic you need can go here
+    
     render 'contact'
   end
 end

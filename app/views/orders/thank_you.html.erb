@@ -1,6 +1,23 @@
 <!-- app/views/orders/thank_you.html.erb -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      
+      <!-- Thank You Message -->
+      <h1 class="display-4 font-weight-bold">Thank You for Your Order!</h1>
+      <p class="lead mt-4">Your order has been successfully placed and is now being processed.</p>
+      
+      <!-- Decorative Icon (Optional) -->
+      <div class="my-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 1a3 3 0 0 0-3 3v1H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V4a3 3 0 0 0-3-3zm3 4V4a3 3 0 0 0-6 0v1h6zm2 2H3v7a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7z"/>
+          <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+        </svg>
+      </div>
 
-<h1>Thank you for your order!</h1>
-<p>Your order has been successfully placed and is now being processed.</p>
+      <!-- Continue Shopping Button -->
+      <%= link_to 'Continue Shopping', root_path, class: 'btn btn-primary btn-lg' %>
 
-<%= link_to 'Continue Shopping', root_path, class: 'btn btn-primary' %>
+    </div>
+  </div>
+</div>
