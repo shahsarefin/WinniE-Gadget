@@ -6,4 +6,13 @@ class StaticController < ApplicationController
       render plain: "Page not found", status: :not_found
     end
   end
+
+  def about
+    
+  end
+
+  def contact
+    # Any logic you need can go here
+    render 'contact'
+  end
 end
