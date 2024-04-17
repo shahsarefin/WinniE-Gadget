@@ -1,44 +1,17 @@
-<%= form_with(url: products_path, method: :get, local: true, class: "form-inline my-2 my-lg-0") do |form| %>
-  <div class="input-group mb-3">
-    <%= form.collection_select :category_id, Category.all, :id, :name, { include_blank: 'All Categories' }, { class: 'custom-select' } %>
-    <%= form.text_field :keyword, placeholder: 'Enter keyword', class: 'form-control' %>
-    <div class="input-group-append">
-      <%= form.submit 'Search', class: 'btn btn-primary' %>
-    </div>
-  </div>
-<% end %>
+<!-- app/views/products/index.html.erb -->
+<h1 class="my-4 text-center">Our All Products</h1>
 
-<!-- Display search terms -->
-<% if params[:keyword].present? || params[:category_id].present? %>
-  <div class="search-summary">
-    <h3>Your Search Results for: "<%= params[:keyword] %>" <% if params[:category_id].present? %> in <%= Category.find(params[:category_id]).name %> Category<% end %></h3>
-  </div>
-<% end %>
-<!-- end -->
+<div class="product-filters text-center">
+  <%= link_to 'All Products', products_path %>
+  <%= link_to 'On Sale', products_path(on_sale: 'true') %>
+  <%= link_to 'New Products', products_path(new: 'true') %>
+  <%= link_to 'Recently Updated', products_path(recently_updated: 'true') %>
+</div>
 
-<h1 class="my-4 text-center">Browse All Products</h1>
 <div class="row">
   <% @products.each do |product| %>
-    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-      <div class="card h-100">
-        <%= link_to product_path(product) do %>
-          <% if product.images.attached? %>
-            <%= image_tag(product.images.first, class: "card-img-top") %>
-          <% else %>
-            <%= image_tag('placeholder-image.png', class: "card-img-top") %>
-          <% end %>
-        <% end %>
-        <div class="card-body">
-          <h5 class="card-title"><%= product.name %></h5>
-          <p class="card-text">$<%= number_to_currency(product.price) %></p>
-          <div class="d-grid gap-2">
-            <%= link_to 'View Product', product_path(product), class: 'btn btn-primary btn-block' %>
-            <%= button_to 'Add to Cart', add_to_cart_cart_path(product_id: product.id), method: :post, class: 'btn btn-primary btn-block' %>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render partial: 'shared/product_card', locals: { product: product } %>
   <% end %>
 </div>
 
-<%= paginate @products %>
+<%= render partial: 'shared/pagination', locals: { products: @products } %>
