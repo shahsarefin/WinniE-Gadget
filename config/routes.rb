@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  # Root path of your application
+  
   root 'home#index'
   
-  # Devise routes for user authentication
+  
   devise_for :users, path: 'auth'
 
   # Routes for products
@@ -30,23 +30,23 @@ Rails.application.routes.draw do
   # Thank you page route after order placement
   get 'orders/thank_you', to: 'orders#thank_you', as: :thank_you_orders
 
-  # If you have a newsletter subscription functionality
+  
   post 'newsletter_subscriptions', to: 'newsletter_subscriptions#create'
 
-  # Stripe webhooks for handling payment confirmation, if you are integrating Stripe for payments
+  
   post 'webhooks/stripe', to: 'webhooks#stripe'
 
-  # Admin routes, if you are using Active Admin or a similar admin panel
+  
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  # Route for the about page
+  
   get 'about', to: 'static#about'
 
-  # Route for the contact page
+ 
   get 'contact', to: 'static#contact'
   
-  # Route for user profile page
+  
   get 'profile', to: 'users#show', as: :user_profile
 
   
