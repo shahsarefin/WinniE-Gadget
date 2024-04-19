@@ -15,6 +15,8 @@ gem 'webpacker'
 gem 'kaminari'
 gem 'stripe'
 gem 'open-uri'
+gem 'pg'
+
 
 
 
