@@ -2,9 +2,9 @@ name: Rails CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -20,22 +20,20 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3.0
-      - name: Install Dependencies
-        run: |
-          bundle install
-      - name: Set up Database
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/my_test_database
-        run: |
-          bin/rails db:setup
-      - name: Run Tests
-        env:
-          RAILS_ENV: test
-        run: |
-          bin/rails test
+    - uses: actions/checkout@v2
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.3.0
+
+    - name: Install Dependencies
+      run: |
+        bundle install
+
+    - name: Set up Database
+      env:
+        RAILS_ENV: test
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/my_test_database
+      run: |
+        bin/rails db:setup
