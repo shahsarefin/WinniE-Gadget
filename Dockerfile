@@ -16,8 +16,8 @@ RUN gem install bundler && bundle install
 # Copy the Rails application into the container
 COPY . .
 
-# Expose port 4000 to the Docker host
-EXPOSE 4000
+# Expose port 3000 to the Docker host
+EXPOSE 3000
 
 # Start the Rails server
-CMD ["rails", "server", "-b", "0.0.0.0", "-p", "4000"]
+CMD ["rails", "server", "-b", "0.0.0.0"]
