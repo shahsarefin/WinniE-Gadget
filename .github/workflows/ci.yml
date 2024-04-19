@@ -1,0 +1,44 @@
+name: Rails CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0 # or the version you want
+      - name: Install Dependencies
+        run: |
+          bundle install
+      - name: Set up Database
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/my_test_database
+        run: |
+          bin/rails db:setup
+      - name: Run Tests
+        env:
+          RAILS_ENV: test
+        run: |
+          bin/rails test
+      - name: Build Docker Image
+        run: |
+          docker build -t my-rails-app .
