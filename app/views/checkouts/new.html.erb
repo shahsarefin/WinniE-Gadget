@@ -30,30 +30,86 @@
   </div>
   <div class="row">
     <div class="col text-right">
-    <% tax_rate = case @province_name
-    when 'Alberta' then 0.05
-    when 'British Columbia' then 0.12
-    when 'Manitoba' then 0.12
-    when 'New Brunswick' then 0.15
-    when 'Newfoundland and Labrador' then 0.15
-    when 'Northwest Territories' then 0.05
-    when 'Nova Scotia' then 0.15
-    when 'Nunavut' then 0.05
-    when 'Ontario' then 0.13
-    when 'Prince Edward Island' then 0.15
-    when 'Quebec' then 0.14975
-    when 'Saskatchewan' then 0.11
-    when 'Yukon' then 0.05
-    else 0.0 # Default if province not matched or recognized
-    end %>
-<% tax_amount = total_price * tax_rate %>
-<h3>Subtotal: $<%= total_price %></h3>
-<h3>Tax ( <%= @province_name %> ): $<%= tax_amount.round(2) %></h3>
-<h3>Total Amount: $<%= (total_price + tax_amount).round(2) %></h3>
-<%= form_with url: checkouts_path, method: :post, local: true do |form| %>
-<div class="actions text-right">
-  <%= form.submit "Place Order", class: "btn btn-primary" %>
+      <% tax_rate = case @province_name
+                    when 'Alberta' then 0.05
+                    when 'British Columbia' then 0.12
+                    when 'Manitoba' then 0.12
+                    when 'New Brunswick' then 0.15
+                    when 'Newfoundland and Labrador' then 0.15
+                    when 'Northwest Territories' then 0.05
+                    when 'Nova Scotia' then 0.15
+                    when 'Nunavut' then 0.05
+                    when 'Ontario' then 0.13
+                    when 'Prince Edward Island' then 0.15
+                    when 'Quebec' then 0.14975
+                    when 'Saskatchewan' then 0.11
+                    when 'Yukon' then 0.05
+                    else 0.0 # Default if province not matched or recognized
+                    end %>
+      <% pst_rate = case @province_name
+                    when 'British Columbia' then 0.07
+                    when 'Manitoba' then 0.07
+                    when 'New Brunswick' then 0.0
+                    when 'Newfoundland and Labrador' then 0.0
+                    when 'Nova Scotia' then 0.0
+                    when 'Ontario' then 0.0
+                    when 'Prince Edward Island' then 0.0
+                    when 'Quebec' then 0.09975
+                    when 'Saskatchewan' then 0.06
+                    else 0.0 # Default if province not matched or recognized
+                    end %>
+      <% hst_rate = case @province_name
+                    when 'British Columbia' then 0.0
+                    when 'Manitoba' then 0.0
+                    when 'New Brunswick' then 0.15
+                    when 'Newfoundland and Labrador' then 0.15
+                    when 'Nova Scotia' then 0.15
+                    when 'Quebec' then 0.0
+                    when 'Saskatchewan' then 0.0
+                    else 0.0 # Default if province not matched or recognized
+                    end %>
+      <% pst_amount = total_price * pst_rate %>
+      <% gst_amount = total_price * tax_rate %>
+      <% hst_amount = total_price * hst_rate %>
+      <% tax_amount = pst_amount + gst_amount + hst_amount %>
+
+      <div class="container mt-3">
+  <h2 class="mb-4">Your Order Summary</h2>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td><h4>Subtotal</h4></td>
+        <td>$<%= total_price %></td>
+      </tr>
+      <tr>
+        <td>PST [ <%= @province_name %> ]:</td>
+        <td>$<%= pst_amount.round(2) %></td>
+      </tr>
+      <tr>
+        <td>GST [ <%= @province_name %> ]:</td>
+        <td>$<%= gst_amount.round(2) %></td>
+      </tr>
+      <tr>
+        <td>HST [ <%= @province_name %> ]:</td>
+        <td>$<%= hst_amount.round(2) %></td>
+      </tr>
+      <tr>
+      <td><h4>Total Tax [ <%= @province_name %> ]:</h4></td>
+        <td>$<%= tax_amount.round(2) %></td>
+      </tr>
+      <tr>
+      <td><h4>Total Amout with Tax [ <%= @province_name %> ]:</h4></td>
+        <td>$<%= (total_price + tax_amount).round(2) %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<% end %>
-</div>
+
+      <%= form_with url: checkouts_path, method: :post, local: true do |form| %>
+        <div class="actions text-right">
+          <%= form.submit "Place Order", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

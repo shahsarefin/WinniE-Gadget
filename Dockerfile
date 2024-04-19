@@ -1,27 +1,23 @@
-# Specify your Ruby version
-FROM ruby:3.0.0
+# Use the official Ruby image from Docker Hub
+FROM ruby:3.3.0
 
-# Install Node.js and Yarn
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && apt-get install -y nodejs yarn
+# Install essential Linux packages
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
-# Create a directory for your app
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy all files to the container
+# Copy Gemfile and Gemfile.lock into the container
+COPY Gemfile Gemfile.lock ./
+
+# Install gems
+RUN gem install bundler && bundle install
+
+# Copy the Rails application into the container
 COPY . .
 
-# Install dependencies
-RUN bundle install
-RUN yarn install --check-files
+# Expose port 4000 to the Docker host
+EXPOSE 4000
 
-# Compile assets
-RUN RAILS_ENV=production bin/rails assets:precompile
-
-# Expose the port your app runs on
-EXPOSE 3000
-
-# Start the main process (puma server in this case)
-CMD ["bin/rails", "server", "-b", "0.0.0.0"]
+# Start the Rails server
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "4000"]

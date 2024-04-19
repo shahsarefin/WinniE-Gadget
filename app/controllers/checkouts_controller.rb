@@ -17,19 +17,19 @@ class CheckoutsController < ApplicationController
       redirect_to select_province_checkouts_path and return
     end
   
-  
-    province_name = if user_signed_in? && current_user.address&.province
+    @province_name = if user_signed_in? && current_user.address&.province
                       current_user.address.province.name
                     else
                       session[:province]
                     end
   
     # Normalize province name to match keys in calculate_tax method
-    province_name = province_name.strip.titleize
+    @province_name = @province_name.strip.titleize
     
-    @tax_amount = calculate_tax(@total_amount, province_name)
+    @tax_amount = calculate_tax(@total_amount, @province_name)
     @total_with_tax = @total_amount + @tax_amount
   end
+  
 
   def create
     # Placeholder for order processing logic. After saving the order, the cart is cleared.
