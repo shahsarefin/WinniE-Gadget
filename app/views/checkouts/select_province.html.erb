@@ -1,10 +1,9 @@
-
 <div class="container mt-3">
   <h2>Select your province</h2>
   <%= form_with url: submit_province_checkouts_path, method: :post do |form| %>
     <div class="field">
       <%= form.label :province %>
-      <%= form.collection_select :province, Province.all, :id, :name, include_blank: true %>
+      <%= form.select :province, options_from_collection_for_select(Province.all, :name, :name, include_blank: true) %>
     </div>
     <div class="actions">
       <%= form.submit "Submit" %>
